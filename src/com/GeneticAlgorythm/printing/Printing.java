@@ -28,20 +28,20 @@ public class Printing {
         return howMany;
     }
 
-    private static void printChromosomes(Integer[][] population) {
-        for (Integer[] integers : population) {
-            printBinaryArray(integers);
+    public static void printChromosomes(Integer[][] population) {
+        for (int i = 0; i < population.length; i++) {
+            printBinaryArray(population[i]);
         }
     }
 
-    private static void printValues(Integer[][] population, GeneticAlgorithm algorithm, Function f) {
+    public static void printValues(Integer[][] population, GeneticAlgorithm algorithm, Function f) {
         for (int i = 0; i < algorithm.getPopulationSize(); i++) {
             Double[] X = algorithm.decodeChromosome(population[i]);
             printFunctionValue(X,f.calculateValue(X));
         }
     }
 
-    private static void printValuesAndChromosomes(Integer[][] population, GeneticAlgorithm algorithm, Function f) {
+    public static void printValuesAndChromosomes(Integer[][] population, GeneticAlgorithm algorithm, Function f) {
         for (int i = 0; i < algorithm.getPopulationSize(); i++) {
             Double[] X = algorithm.decodeChromosome(population[i]);
             System.out.printf("Element %03d. populacji\n",i);

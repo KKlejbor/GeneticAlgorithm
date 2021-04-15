@@ -89,16 +89,16 @@ public class GeneticAlgorithm {
     }
 
     public Integer[] generateChromosome() {
-        Integer[] result = new Integer[this.geneLength * this.numberOfGenes];
+        Integer[] result = new Integer[geneLength * numberOfGenes];
         //Random losowanie = new Random();
-        for (int i = 0; i < this.geneLength * this.numberOfGenes; i++) {
+        for (int i = 0; i < geneLength * numberOfGenes; i++) {
             result[i] = randomGenerator.nextInt(2);
         }
         return result;
     }
 
     public Integer[][] generatePopulation(){
-        Integer[][] population = new Integer[numberOfGenes * geneLength][populationSize];
+        Integer[][] population = new Integer[populationSize][numberOfGenes * geneLength];
         for (int i = 0; i < populationSize; i++) {
             population[i] = generateChromosome();
         }
@@ -221,7 +221,7 @@ public class GeneticAlgorithm {
     }
 
     public Integer[][] roulette(Integer[][] oldPopulation, Function f){
-        Integer[][] temporaryPopulation = new Integer[geneLength * numberOfGenes][populationSize];
+        Integer[][] temporaryPopulation = new Integer[populationSize][geneLength * numberOfGenes];
         double[] probabilities = new double[populationSize];
         double minimalValue = 0;
         double sum = 0;
@@ -253,7 +253,7 @@ public class GeneticAlgorithm {
                 probabilities[i] = 1;
             }
             else{
-                probabilities[i] = probabilities[i-1] + values[i] / sum;
+                probabilities[i] = probabilities[i-1] + (values[i] / sum);
             }
 
         }
@@ -264,6 +264,7 @@ public class GeneticAlgorithm {
             for (int j = 0; j < populationSize; j++) {
                 if(probabilities[j] >= probability){
                     temporaryPopulation[i] = oldPopulation[j];
+                    break;
                 }
             }
         }
