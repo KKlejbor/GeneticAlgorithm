@@ -1,5 +1,7 @@
 package com.GeneticAlgorythm.geneticAlgorythm;
 
+import com.GeneticAlgorythm.util.Function;
+
 import java.util.Random;
 
 public class GeneticAlgorithm {
@@ -9,17 +11,19 @@ public class GeneticAlgorithm {
     private double lowerBound; //dolna granica dziedziny
     private double upperBound; //górna granica dziedziny
     private double probabilityOfMutation; //prawdopodobieństwo mutacji
+    private int populationSize;
 
     public GeneticAlgorithm() {
 
     }
 
-    public GeneticAlgorithm(int numberOfGenes, double loweBound, double upperBound, int numberOfDecimalPlaces, double probabilityOfMutation) {
+    public GeneticAlgorithm(int numberOfGenes, double loweBound, double upperBound, int numberOfDecimalPlaces, double probabilityOfMutation, int populationSize) {
         geneLength = (int) Math.ceil(log2((upperBound - loweBound) * Math.pow(10, numberOfDecimalPlaces)));
         this.numberOfGenes = numberOfGenes;
         this.lowerBound = loweBound;
         this.upperBound = upperBound;
         this.probabilityOfMutation = probabilityOfMutation;
+        this.populationSize = populationSize;
     }
 
     public GeneticAlgorithm(int numberOfGenes, double lowerBound, double upperBound, int numberOfDecimalPlaces) {
@@ -28,6 +32,7 @@ public class GeneticAlgorithm {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         probabilityOfMutation = 0.1;
+        populationSize = 15;
     }
 
 
@@ -73,6 +78,14 @@ public class GeneticAlgorithm {
 
     public void setProbabilityOfMutation(double probabilityOfMutation) {
         this.probabilityOfMutation = probabilityOfMutation;
+    }
+
+    public int getPopulationSize() {
+        return populationSize;
+    }
+
+    public void setPopulationSize(int populationSize) {
+        this.populationSize = populationSize;
     }
 
     public Integer[] generateChromosome() {
@@ -159,4 +172,52 @@ public class GeneticAlgorithm {
         }
         return array;
     }
+
+    public Double[] computeValues(Integer[][] population, Function f) {
+        Double[] results = new Double[populationSize];
+
+        for (int i = 0; i < populationSize; i++) {
+            results[i] = f.calculateValue(decodeChromosome(population[i]));
+        }
+
+        return results;
+    }
+
+
+
+    public double computeAverageValue(Integer[][] population, Function f){
+        double average = 0;
+        Double[] values = computeValues(population,f);
+
+        for (int i = 0; i < populationSize; i++) {
+            average += values[i];
+        }
+
+        return average / populationSize;
+    }
+
+    public int howManyValuesGraterThanAverage(Integer[][] population, Function f){
+        double average = computeAverageValue(population, f);
+        int howMany = 0;
+        Double[] results = computeValues(population, f);
+
+        for (int i = 0; i < populationSize; i++) {
+            if(results[i] >= average)
+                howMany++;
+        }
+        return howMany;
+    }
+
+    public int howManyValuesLesserThanAverage(Integer[][] population, Function f){
+        double average = computeAverageValue(population,f);
+        int howMany = 0;
+        Double[] results = computeValues(population,f);
+
+        for (int i = 0; i < populationSize; i++) {
+            if(results[i] < average)
+                howMany++;
+        }
+        return howMany;
+    }
+
 }
