@@ -97,9 +97,9 @@ public class GeneticAlgorithm {
         return result;
     }
 
-    public Integer[][] generatePopulation(int N){
-        Integer[][] population = new Integer[this.numberOfGenes * geneLength][N];
-        for (int i = 0; i < N; i++) {
+    public Integer[][] generatePopulation(){
+        Integer[][] population = new Integer[numberOfGenes * geneLength][populationSize];
+        for (int i = 0; i < populationSize; i++) {
             population[i] = generateChromosome();
         }
         return population;
@@ -218,6 +218,57 @@ public class GeneticAlgorithm {
                 howMany++;
         }
         return howMany;
+    }
+
+    public Integer[][] roulette(Integer[][] oldPopulation, Function f){
+        Integer[][] temporaryPopulation = new Integer[geneLength * numberOfGenes][populationSize];
+        double[] probabilities = new double[populationSize];
+        double minimalValue = 0;
+        double sum = 0;
+        double[] values = new double[populationSize];
+        double probability;
+
+        for (int i = 0; i < populationSize; i++) {
+            values[i] = f.calculateValue(decodeChromosome(oldPopulation[i]));
+            if(values[i] < minimalValue)
+                minimalValue = values[i];
+        }
+
+        if(minimalValue <= 0){
+            for (int i = 0; i < populationSize; i++) {
+                values[i] += Math.abs(minimalValue) + 1;
+                sum += values[i];
+            }
+        }else{
+            for (int i = 0; i < populationSize; i++) {
+                sum += values[i];
+            }
+        }
+
+        for (int i = 0; i < populationSize; i++) {
+            if(i == 0){
+                probabilities[i] = 0;
+            }
+            else if(i == populationSize-1){
+                probabilities[i] = 1;
+            }
+            else{
+                probabilities[i] = probabilities[i-1] + values[i] / sum;
+            }
+
+        }
+
+        for (int i = 0; i < populationSize; i++) {
+            probability = randomGenerator.nextDouble();
+
+            for (int j = 0; j < populationSize; j++) {
+                if(probabilities[j] >= probability){
+                    temporaryPopulation[i] = oldPopulation[j];
+                }
+            }
+        }
+
+        return temporaryPopulation;
     }
 
 }
