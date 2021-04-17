@@ -1,16 +1,15 @@
 package com.GeneticAlgorythm.geneticAlgorythm;
 
-import com.GeneticAlgorythm.util.Function;
-
 import java.util.Random;
+import java.util.function.Function;
 
 public class GeneticAlgorithm {
-    private final Random randomGenerator = new Random();
-    private int geneLength; //gen length
-    private int numberOfGenes; //ilość genów
-    private double lowerBound; //dolna granica dziedziny
-    private double upperBound; //górna granica dziedziny
-    private double probabilityOfMutation; //prawdopodobieństwo mutacji
+    private final static Random randomNumberGenerator = new Random();
+    private int geneLength;
+    private int numberOfGenes;
+    private double lowerBound;
+    private double upperBound;
+    private double probabilityOfMutation;
     private int populationSize;
 
     public GeneticAlgorithm() {
@@ -35,8 +34,7 @@ public class GeneticAlgorithm {
         populationSize = 15;
     }
 
-
-    public static double log2(double x) {
+    private static double log2(double x) {
         return Math.log(x) / Math.log(2);
     }
 
@@ -44,150 +42,29 @@ public class GeneticAlgorithm {
         return geneLength;
     }
 
-    public void setGeneLength(int geneLength) {
-        this.geneLength = geneLength;
-    }
-
     public int getNumberOfGenes() {
         return numberOfGenes;
-    }
-
-    public void setNumberOfGenes(int numberOfGenes) {
-        this.numberOfGenes = numberOfGenes;
     }
 
     public double getLowerBound() {
         return lowerBound;
     }
 
-    public void setLowerBound(double lowerBound) {
-        this.lowerBound = lowerBound;
-    }
-
     public double getUpperBound() {
         return upperBound;
-    }
-
-    public void setUpperBound(double upperBound) {
-        this.upperBound = upperBound;
     }
 
     public double getProbabilityOfMutation() {
         return probabilityOfMutation;
     }
 
-    public void setProbabilityOfMutation(double probabilityOfMutation) {
-        this.probabilityOfMutation = probabilityOfMutation;
-    }
-
     public int getPopulationSize() {
         return populationSize;
     }
 
-    public void setPopulationSize(int populationSize) {
-        this.populationSize = populationSize;
-    }
-
-    public Integer[] generateChromosome() {
-        Integer[] result = new Integer[geneLength * numberOfGenes];
-        //Random losowanie = new Random();
-        for (int i = 0; i < geneLength * numberOfGenes; i++) {
-            result[i] = randomGenerator.nextInt(2);
-        }
-        return result;
-    }
-
-    public Integer[][] generatePopulation(){
-        Integer[][] population = new Integer[populationSize][numberOfGenes * geneLength];
-        for (int i = 0; i < populationSize; i++) {
-            population[i] = generateChromosome();
-        }
-        return population;
-    }
-
-    public Double[] decodeChromosome(Integer[] tab) {
-        double number;
-        Double[] result = new Double[numberOfGenes];
-        for (int i = 0; i < numberOfGenes; i++) {
-            number = 0;
-            for (int j = geneLength * (1 + i) - 1; j >= i * geneLength; j--) {
-                number += tab[j] * Math.pow(2, j - i * geneLength);
-            }
-            result[i] = lowerBound + number * ((upperBound - lowerBound) / (Math.pow(2, geneLength) - 1));
-        }
-        return result;
-    }
-
-    public Integer[][] pointCrossover(Integer[] parent1, Integer[] parent2) {
-        int index = randomGenerator.nextInt(numberOfGenes * geneLength);
-        Integer[] child1 = new Integer[numberOfGenes * geneLength];
-        Integer[] child2 = new Integer[numberOfGenes * geneLength];
-
-        for (int i = 0; i < index; i++) {
-            child1[i] = parent1[i];
-            child2[i] = parent2[i];
-        }
-
-        for (int i = index; i < numberOfGenes * geneLength; i++) {
-            child1[i] = parent2[i];
-            child2[i] = parent1[i];
-        }
-
-        return new Integer[][]{child1, child2};
-    }
-
-    public Integer[][] multipointCrossover(Integer[] parent1, Integer[] parent2) {
-        Integer[] child1 = new Integer[this.numberOfGenes * this.geneLength];
-        Integer[] child2 = new Integer[this.numberOfGenes * this.geneLength];
-
-        int index1 = randomGenerator.nextInt(numberOfGenes * geneLength);
-        int index2 = randomGenerator.nextInt(numberOfGenes * geneLength - (index1 + 1)) + (index1 + 1);
-
-        for (int i = 0; i < index1; i++) {
-            child1[i] = parent1[i];
-            child2[i] = parent2[i];
-        }
-
-        for (int i = index1; i < index2; i++) {
-            child1[i] = parent2[i];
-            child2[i] = parent1[i];
-        }
-
-        for (int i = index2; i < this.numberOfGenes * this.geneLength; i++) {
-            child1[i] = parent1[i];
-            child2[i] = parent2[i];
-        }
-
-        return new Integer[][]{child1, child2};
-    }
-
-    public Integer[] mutation(Integer[] array) {
-        for (int i = 0; i < array.length; i++) {
-            if (randomGenerator.nextDouble() <= probabilityOfMutation) {
-                if (array[i] == 0)
-                    array[i] = 1;
-                else
-                    array[i] = 0;
-            }
-        }
-        return array;
-    }
-
-    public Double[] computeValues(Integer[][] population, Function f) {
-        Double[] results = new Double[populationSize];
-
-        for (int i = 0; i < populationSize; i++) {
-            results[i] = f.calculateValue(decodeChromosome(population[i]));
-        }
-
-        return results;
-    }
-
-
-
-    public double computeAverageValue(Integer[][] population, Function f){
+    public double computeAverageValue(Integer[][] population, Function<Double[], Double> f) {
         double average = 0;
-        Double[] values = computeValues(population,f);
+        Double[] values = computeValues(population, f);
 
         for (int i = 0; i < populationSize; i++) {
             average += values[i];
@@ -196,31 +73,155 @@ public class GeneticAlgorithm {
         return average / populationSize;
     }
 
-    public int howManyValuesGraterThanAverage(Integer[][] population, Function f){
+    public Double[] computeValues(Integer[][] population, Function<Double[], Double> f) {
+        Double[] results = new Double[populationSize];
+
+        for (int i = 0; i < populationSize; i++) {
+            results[i] = f.apply(decodeChromosome(population[i]));
+        }
+
+        return results;
+    }
+
+    public Double[] decodeChromosome(Integer[] tab) {
+        double number;
+        Double[] result = new Double[numberOfGenes];
+
+        for (int i = 0; i < numberOfGenes; i++) {
+            number = 0;
+            for (int j = geneLength * (1 + i) - 1; j >= i * geneLength; j--) {
+                number += tab[j] * Math.pow(2, j - i * geneLength);
+            }
+            result[i] = lowerBound + number * ((upperBound - lowerBound) / (Math.pow(2, geneLength) - 1));
+        }
+
+        return result;
+    }
+
+    public static int howManyBitsHaveChanged(Integer[] array1, Integer[] array2){
+        int howMany = 0;
+        for (int i = 0; i < array1.length; i++) {
+            if(!array1[i].equals(array2[i]))
+                howMany++;
+        }
+        return howMany;
+    }
+
+    public int howManyValuesGraterThanAverage(Integer[][] population, Function<Double[], Double> f) {
         double average = computeAverageValue(population, f);
         int howMany = 0;
         Double[] results = computeValues(population, f);
 
         for (int i = 0; i < populationSize; i++) {
-            if(results[i] >= average)
+            if (results[i] >= average)
                 howMany++;
         }
         return howMany;
     }
 
-    public int howManyValuesLesserThanAverage(Integer[][] population, Function f){
-        double average = computeAverageValue(population,f);
+    public int howManyValuesLesserThanAverage(Integer[][] population, Function<Double[], Double> f) {
+        double average = computeAverageValue(population, f);
         int howMany = 0;
-        Double[] results = computeValues(population,f);
+        Double[] results = computeValues(population, f);
 
         for (int i = 0; i < populationSize; i++) {
-            if(results[i] < average)
+            if (results[i] < average)
                 howMany++;
         }
         return howMany;
     }
 
-    public Integer[][] roulette(Integer[][] oldPopulation, Function f){
+    public Integer[] generateChromosome() {
+        Integer[] result = new Integer[geneLength * numberOfGenes];
+
+        for (int i = 0; i < geneLength * numberOfGenes; i++) {
+            result[i] = randomNumberGenerator.nextInt(2);
+        }
+
+        return result;
+    }
+
+    public Integer[][] generatePopulation() {
+        Integer[][] population = new Integer[populationSize][numberOfGenes * geneLength];
+
+        for (int i = 0; i < populationSize; i++) {
+            population[i] = generateChromosome();
+        }
+
+        return population;
+    }
+
+    private int generateRandomIndex() {
+        return randomNumberGenerator.nextInt(geneLength * numberOfGenes - 1);
+    }
+
+    public Integer[][] multipointCrossover(Integer[] parent1, Integer[] parent2) {
+        Integer[] offspring1 = new Integer[this.numberOfGenes * this.geneLength];
+        Integer[] offspring2 = new Integer[this.numberOfGenes * this.geneLength];
+
+        int index1 = generateRandomIndex();
+        int index2;
+
+        do{
+            index2 = generateRandomIndex();
+        }while (index1 == index2);
+
+        if(index1 > index2){
+            int temp = index2;
+            index2 = index1;
+            index1 = temp;
+        }
+
+        for (int i = 0; i < index1; i++) {
+            offspring1[i] = parent1[i];
+            offspring2[i] = parent2[i];
+        }
+
+        for (int i = index1; i < index2; i++) {
+            offspring1[i] = parent2[i];
+            offspring2[i] = parent1[i];
+        }
+
+        for (int i = index2; i < this.numberOfGenes * this.geneLength; i++) {
+            offspring1[i] = parent1[i];
+            offspring2[i] = parent2[i];
+        }
+
+        return new Integer[][]{offspring1, offspring2};
+    }
+
+    public Integer[] mutation(Integer[] chromosome) {
+        for (int i = 0; i < chromosome.length; i++) {
+            if (randomNumberGenerator.nextDouble() <= probabilityOfMutation) {
+                if (chromosome[i] == 0)
+                    chromosome[i] = 1;
+                else
+                    chromosome[i] = 0;
+            }
+        }
+        return chromosome;
+    }
+
+    public Integer[][] pointCrossover(Integer[] parent1, Integer[] parent2) {
+        int index = generateRandomIndex();
+
+        Integer[] offspring1 = new Integer[numberOfGenes * geneLength];
+        Integer[] offspring2 = new Integer[numberOfGenes * geneLength];
+
+        for (int i = 0; i < index; i++) {
+            offspring1[i] = parent1[i];
+            offspring2[i] = parent2[i];
+        }
+
+        for (int i = index; i < numberOfGenes * geneLength; i++) {
+            offspring1[i] = parent2[i];
+            offspring2[i] = parent1[i];
+        }
+
+        return new Integer[][]{offspring1, offspring2};
+    }
+
+    public Integer[][] roulette(Integer[][] oldPopulation, Function<Double[], Double> f) {
         Integer[][] temporaryPopulation = new Integer[populationSize][geneLength * numberOfGenes];
         double[] probabilities = new double[populationSize];
         double minimalValue = 0;
@@ -229,40 +230,38 @@ public class GeneticAlgorithm {
         double probability;
 
         for (int i = 0; i < populationSize; i++) {
-            values[i] = f.calculateValue(decodeChromosome(oldPopulation[i]));
-            if(values[i] < minimalValue)
+            values[i] = f.apply(decodeChromosome(oldPopulation[i]));
+            if (values[i] < minimalValue)
                 minimalValue = values[i];
         }
 
-        if(minimalValue <= 0){
+        if (minimalValue <= 0) {
             for (int i = 0; i < populationSize; i++) {
                 values[i] += Math.abs(minimalValue) + 1;
                 sum += values[i];
             }
-        }else{
+        } else {
             for (int i = 0; i < populationSize; i++) {
                 sum += values[i];
             }
         }
 
         for (int i = 0; i < populationSize; i++) {
-            if(i == 0){
+            if (i == 0) {
                 probabilities[i] = 0;
-            }
-            else if(i == populationSize-1){
+            } else if (i == populationSize - 1) {
                 probabilities[i] = 1;
-            }
-            else{
-                probabilities[i] = probabilities[i-1] + (values[i] / sum);
+            } else {
+                probabilities[i] = probabilities[i - 1] + (values[i] / sum);
             }
 
         }
 
         for (int i = 0; i < populationSize; i++) {
-            probability = randomGenerator.nextDouble();
+            probability = randomNumberGenerator.nextDouble();
 
             for (int j = 0; j < populationSize; j++) {
-                if(probabilities[j] >= probability){
+                if (probabilities[j] >= probability) {
                     temporaryPopulation[i] = oldPopulation[j];
                     break;
                 }
@@ -271,5 +270,4 @@ public class GeneticAlgorithm {
 
         return temporaryPopulation;
     }
-
 }

@@ -1,7 +1,7 @@
 package com.GeneticAlgorythm.printing;
 
 import com.GeneticAlgorythm.geneticAlgorythm.GeneticAlgorithm;
-import com.GeneticAlgorythm.util.Function;
+import java.util.function.Function;
 
 public class Printing {
     public static void printBinaryArray(Integer[] tab) {
@@ -9,6 +9,12 @@ public class Printing {
             System.out.print(integer);
         }
         System.out.println();
+    }
+
+    public static void printChromosomes(Integer[][] population) {
+        for (int i = 0; i < population.length; i++) {
+            printBinaryArray(population[i]);
+        }
     }
 
     public static void printFunctionValue(Double[] X, Double Y) {
@@ -19,35 +25,20 @@ public class Printing {
         }
     }
 
-    public static int howManyBitsHaveChanged(Integer[] array1, Integer[] array2){
-        int howMany = 0;
-        for (int i = 0; i < array1.length; i++) {
-            if(!array1[i].equals(array2[i]))
-                howMany++;
-        }
-        return howMany;
-    }
-
-    public static void printChromosomes(Integer[][] population) {
-        for (int i = 0; i < population.length; i++) {
-            printBinaryArray(population[i]);
-        }
-    }
-
-    public static void printValues(Integer[][] population, GeneticAlgorithm algorithm, Function f) {
+    public static void printValues(Integer[][] population, GeneticAlgorithm algorithm, Function<Double[], Double> f) {
         for (int i = 0; i < algorithm.getPopulationSize(); i++) {
             Double[] X = algorithm.decodeChromosome(population[i]);
-            printFunctionValue(X,f.calculateValue(X));
+            printFunctionValue(X,f.apply(X));
         }
     }
 
-    public static void printValuesAndChromosomes(Integer[][] population, GeneticAlgorithm algorithm, Function f) {
+    public static void printValuesAndChromosomes(Integer[][] population, GeneticAlgorithm algorithm, Function<Double[], Double> f) {
         for (int i = 0; i < algorithm.getPopulationSize(); i++) {
             Double[] X = algorithm.decodeChromosome(population[i]);
             System.out.printf("Element %03d. populacji\n",i);
             printBinaryArray(population[i]);
             System.out.println();
-            printFunctionValue(X,f.calculateValue(X));
+            printFunctionValue(X,f.apply(X));
         }
     }
 }
