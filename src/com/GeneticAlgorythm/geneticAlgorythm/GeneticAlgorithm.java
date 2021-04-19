@@ -25,6 +25,24 @@ public class GeneticAlgorithm {
         this.populationSize = populationSize;
     }
 
+    public GeneticAlgorithm(int numberOfGenes, double lowerBound, double upperBound, int numberOfDecimalPlaces, int populationSize) {
+        this.geneLength = (int) Math.ceil(log2((upperBound - lowerBound) * Math.pow(10, numberOfDecimalPlaces)));
+        this.numberOfGenes = numberOfGenes;
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+        this.probabilityOfMutation = 0.1;
+        this.populationSize = populationSize;
+    }
+
+    public GeneticAlgorithm(int numberOfGenes, double lowerBound, double upperBound, int numberOfDecimalPlaces, double probabilityOfMutation) {
+        this.geneLength = (int) Math.ceil(log2((upperBound - lowerBound) * Math.pow(10, numberOfDecimalPlaces)));
+        this.numberOfGenes = numberOfGenes;
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+        this.probabilityOfMutation = probabilityOfMutation;
+        this.populationSize = 15;
+    }
+
     public GeneticAlgorithm(int numberOfGenes, double lowerBound, double upperBound, int numberOfDecimalPlaces) {
         geneLength = (int) Math.ceil(log2((upperBound - lowerBound) * Math.pow(10, numberOfDecimalPlaces)));
         this.numberOfGenes = numberOfGenes;
