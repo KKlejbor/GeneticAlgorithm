@@ -38,6 +38,15 @@ public class GeneticAlgorithm {
         return Math.log(x) / Math.log(2);
     }
 
+    public static int howManyBitsHaveChanged(Integer[] array1, Integer[] array2) {
+        int howMany = 0;
+        for (int i = 0; i < array1.length; i++) {
+            if (!array1[i].equals(array2[i]))
+                howMany++;
+        }
+        return howMany;
+    }
+
     public int getGeneLength() {
         return geneLength;
     }
@@ -73,11 +82,19 @@ public class GeneticAlgorithm {
         return average / populationSize;
     }
 
+    public double computeValue(Integer[] chromosome, Function<Double[], Double> f) {
+        return f.apply(decodeChromosome(chromosome));
+    }
+
+    public double computeValue(Double[] decodedChromosome, Function<Double[], Double> f) {
+        return f.apply(decodedChromosome);
+    }
+
     public Double[] computeValues(Integer[][] population, Function<Double[], Double> f) {
         Double[] results = new Double[populationSize];
 
         for (int i = 0; i < populationSize; i++) {
-            results[i] = f.apply(decodeChromosome(population[i]));
+            results[i] = computeValue(population[i], f);
         }
 
         return results;
@@ -96,15 +113,6 @@ public class GeneticAlgorithm {
         }
 
         return result;
-    }
-
-    public static int howManyBitsHaveChanged(Integer[] array1, Integer[] array2){
-        int howMany = 0;
-        for (int i = 0; i < array1.length; i++) {
-            if(!array1[i].equals(array2[i]))
-                howMany++;
-        }
-        return howMany;
     }
 
     public int howManyValuesGraterThanAverage(Integer[][] population, Function<Double[], Double> f) {
@@ -162,11 +170,11 @@ public class GeneticAlgorithm {
         int index1 = generateRandomIndex();
         int index2;
 
-        do{
+        do {
             index2 = generateRandomIndex();
-        }while (index1 == index2);
+        } while (index1 == index2);
 
-        if(index1 > index2){
+        if (index1 > index2) {
             int temp = index2;
             index2 = index1;
             index1 = temp;
