@@ -182,8 +182,8 @@ public class GeneticAlgorithm {
     }
 
     public Integer[][] multipointCrossover(Integer[] parent1, Integer[] parent2) {
-        Integer[] offspring1 = new Integer[this.numberOfGenes * this.geneLength];
-        Integer[] offspring2 = new Integer[this.numberOfGenes * this.geneLength];
+        Integer[] offspring1 = new Integer[numberOfGenes * geneLength];
+        Integer[] offspring2 = new Integer[numberOfGenes * geneLength];
 
         int index1 = generateRandomIndex();
         int index2;
@@ -198,17 +198,17 @@ public class GeneticAlgorithm {
             index1 = temp;
         }
 
-        for (int i = 0; i < index1; i++) {
+        for (int i = 0; i <= index1; i++) {
             offspring1[i] = parent1[i];
             offspring2[i] = parent2[i];
         }
 
-        for (int i = index1; i < index2; i++) {
+        for (int i = index1 + 1; i <= index2; i++) {
             offspring1[i] = parent2[i];
             offspring2[i] = parent1[i];
         }
 
-        for (int i = index2; i < this.numberOfGenes * this.geneLength; i++) {
+        for (int i = index2 + 1; i <= numberOfGenes * geneLength - 1; i++) {
             offspring1[i] = parent1[i];
             offspring2[i] = parent2[i];
         }
@@ -234,15 +234,18 @@ public class GeneticAlgorithm {
         Integer[] offspring1 = new Integer[numberOfGenes * geneLength];
         Integer[] offspring2 = new Integer[numberOfGenes * geneLength];
 
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i <= index; i++) {
             offspring1[i] = parent1[i];
             offspring2[i] = parent2[i];
         }
 
-        for (int i = index; i < numberOfGenes * geneLength; i++) {
+        for (int i = index + 1; i <= numberOfGenes * geneLength - 2; i++) {
             offspring1[i] = parent2[i];
             offspring2[i] = parent1[i];
         }
+
+        offspring1[numberOfGenes * geneLength - 1] = parent1[numberOfGenes * geneLength - 1];
+        offspring2[numberOfGenes * geneLength - 1] = parent2[numberOfGenes * geneLength - 1];
 
         return new Integer[][]{offspring1, offspring2};
     }
