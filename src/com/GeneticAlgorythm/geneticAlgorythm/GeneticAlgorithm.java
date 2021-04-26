@@ -1,5 +1,8 @@
 package com.GeneticAlgorythm.geneticAlgorythm;
 
+import com.GeneticAlgorythm.printing.Printing;
+
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -10,6 +13,7 @@ public class GeneticAlgorithm {
     private double lowerBound;
     private double upperBound;
     private double probabilityOfMutation;
+    private double probabilityOfCrossover = 0.6;
     private int populationSize;
 
     public GeneticAlgorithm() {
@@ -88,6 +92,40 @@ public class GeneticAlgorithm {
     public int getPopulationSize() {
         return populationSize;
     }
+
+    public Integer[][] applyCrossover(Integer[][] parents, int numberOfPoints){
+        Integer[][] newPopulation = new Integer[populationSize][geneLength * numberOfGenes];
+        Integer[][] offSpring;
+
+        for (int i = 0; i < populationSize; i+=2) {
+            if(randomNumberGenerator.nextDouble() <= probabilityOfCrossover){
+                if (numberOfPoints == 2) {
+                    offSpring = pointCrossover(parents[i], parents[i + 1]);
+                } else {
+                    offSpring = multipointCrossover(parents[i], parents[i + 1], numberOfPoints);
+                }
+                newPopulation[i] = offSpring[0];
+                newPopulation[i+1] = offSpring[1];
+            }else {
+                newPopulation[i] = parents[0];
+                newPopulation[i+1] = parents[1];
+            }
+        }
+
+        return  newPopulation;
+    }
+
+    public Integer[][] applyMutation(Integer[][] population){
+        for (int i = 0; i < populationSize; i++) {
+            if(randomNumberGenerator.nextDouble() <= probabilityOfMutation){
+                population[i] = mutation(population[i]);
+            }
+        }
+
+        return population;
+    }
+
+
 
     public double computeAverageValue(Integer[][] population, Function<Double[], Double> f) {
         double average = 0;
@@ -181,11 +219,39 @@ public class GeneticAlgorithm {
         return randomNumberGenerator.nextInt(geneLength * numberOfGenes - 1);
     }
 
-    public Integer[][] multipointCrossover(Integer[] parent1, Integer[] parent2) {
+    /*private int generateRandomIndex(int min, int max) {
+        return randomNumberGenerator.nextInt(max - min) + min;
+    }*/
+
+    public Integer[][] multipointCrossover(Integer[] parent1, Integer[] parent2, int numberOfPoints) {
+        /*if(numberOfPoints <= 0 || numberOfPoints >= numberOfGenes * geneLength){
+            numberOfPoints = 2;
+        }*/
+
         Integer[] offspring1 = new Integer[numberOfGenes * geneLength];
         Integer[] offspring2 = new Integer[numberOfGenes * geneLength];
+        Integer[] indexes; // = new Integer[numberOfGenes * geneLength];
+        int index;
 
-        int index1 = generateRandomIndex();
+        //indexes[0] = generateRandomIndex();
+        ArrayList<Integer> uniqueIndexes = new ArrayList<>();
+
+        for (int i = 0; i < numberOfPoints; i++) {
+            do {
+                index = generateRandomIndex();
+            }while (uniqueIndexes.contains(index));
+            uniqueIndexes.add(index);
+        }
+        uniqueIndexes.sort(null);
+        indexes = uniqueIndexes.toArray(Integer[]::new);
+
+        for (int i:
+             indexes) {
+            System.out.print(i+" ");
+        }
+        System.out.println();
+
+        /*int index1 = generateRandomIndex();
         int index2;
 
         do {
@@ -196,22 +262,66 @@ public class GeneticAlgorithm {
             int temp = index2;
             index2 = index1;
             index1 = temp;
+        }*/
+
+        for (int j = 0; j <= indexes[0]; j++) {
+            offspring1[j] = parent1[j];
+            offspring2[j] = parent2[j];
         }
 
-        for (int i = 0; i <= index1; i++) {
-            offspring1[i] = parent1[i];
-            offspring2[i] = parent2[i];
+        for (int i = 1; i < numberOfPoints; i++) {
+            if(i % 2 == 1){
+                for (int j = indexes[i - 1] + 1; j <= indexes[i]; j++) {
+                    offspring1[j] = parent2[j];
+                    offspring2[j] = parent1[j];
+                }
+            }else {
+                for (int j = indexes[i - 1] + 1; j <= indexes[i]; j++) {
+                    offspring1[j] = parent1[j];
+                    offspring2[j] = parent2[j];
+                }
+            }
         }
 
-        for (int i = index1 + 1; i <= index2; i++) {
-            offspring1[i] = parent2[i];
-            offspring2[i] = parent1[i];
+        if(numberOfPoints % 2 == 0){
+            for (int j = indexes[numberOfPoints - 1] + 1; j <= numberOfGenes * geneLength - 1; j++) {
+                offspring1[j] = parent1[j];
+                offspring2[j] = parent2[j];
+            }
+        }else {
+            for (int j = indexes[numberOfPoints - 1] + 1; j <= numberOfGenes * geneLength - 1; j++) {
+                offspring1[j] = parent2[j];
+                offspring2[j] = parent1[j];
+            }
         }
+        /*System.out.print("R1:");
+        for (int i = 0; i < numberOfGenes * geneLength; i++) {
+            System.out.print(parent1[i]);
+            if(uniqueIndexes.contains(i))
+                System.out.print("|");
+        }
+        System.out.print("\nR2:");
 
-        for (int i = index2 + 1; i <= numberOfGenes * geneLength - 1; i++) {
-            offspring1[i] = parent1[i];
-            offspring2[i] = parent2[i];
+        for (int i = 0; i < numberOfGenes * geneLength; i++) {
+            System.out.print(parent2[i]);
+            if(uniqueIndexes.contains(i))
+                System.out.print("|");
         }
+        System.out.print("\nP1:");
+
+        for (int i = 0; i < numberOfGenes * geneLength; i++) {
+            System.out.print(offspring1[i]);
+            if(uniqueIndexes.contains(i))
+                System.out.print("|");
+        }
+        System.out.print("\nP2:");
+
+        for (int i = 0; i < numberOfGenes * geneLength; i++) {
+            System.out.print(offspring2[i]);
+            if(uniqueIndexes.contains(i))
+                System.out.print("|");
+        }
+        System.out.println();*/
 
         return new Integer[][]{offspring1, offspring2};
     }
@@ -298,5 +408,40 @@ public class GeneticAlgorithm {
         }
 
         return temporaryPopulation;
+    }
+
+    public Integer[][] twoPointCrossover(Integer[] parent1, Integer[] parent2) {
+        Integer[] offspring1 = new Integer[numberOfGenes * geneLength];
+        Integer[] offspring2 = new Integer[numberOfGenes * geneLength];
+
+        int index1 = generateRandomIndex();
+        int index2;
+
+        do {
+            index2 = generateRandomIndex();
+        } while (index1 == index2);
+
+        if (index1 > index2) {
+            int temp = index2;
+            index2 = index1;
+            index1 = temp;
+        }
+
+        for (int i = 0; i <= index1; i++) {
+            offspring1[i] = parent1[i];
+            offspring2[i] = parent2[i];
+        }
+
+        for (int i = index1 + 1; i <= index2; i++) {
+            offspring1[i] = parent2[i];
+            offspring2[i] = parent1[i];
+        }
+
+        for (int i = index2 + 1; i <= numberOfGenes * geneLength - 1; i++) {
+            offspring1[i] = parent1[i];
+            offspring2[i] = parent2[i];
+        }
+
+        return new Integer[][]{offspring1, offspring2};
     }
 }

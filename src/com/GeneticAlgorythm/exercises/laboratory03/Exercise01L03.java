@@ -59,7 +59,7 @@ public class Exercise01L03 {
         System.out.print("p2: ");
         Printing.printBinaryArray(offspring2);
 
-        offspringBin = algo.multipointCrossover(parent1, parent2);
+        offspringBin = algo.twoPointCrossover(parent1, parent2);
 
         offspring1 = offspringBin[0];
         offspring2 = offspringBin[1];
