@@ -1,7 +1,6 @@
 package com.GeneticAlgorythm.exercises.laboratory07;
 
 import com.GeneticAlgorythm.util.RastriginFunctionMin;
-
 import java.util.function.Function;
 
 public class Exercise01L07 {
