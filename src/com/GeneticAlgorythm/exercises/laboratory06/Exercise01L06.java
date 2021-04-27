@@ -8,7 +8,7 @@ public class Exercise01L06 {
     public static final QuadraticFunction f = new QuadraticFunction();
 
     public static void main(String[] args) {
-        GeneticAlgorithm algorithm = new GeneticAlgorithm(2, -2, 2, 5, 0.1, 5);
+        GeneticAlgorithm algorithm = new GeneticAlgorithm(2, -2, 2, 5,5);
         Integer[][] P1 = algorithm.generatePopulation();
         Integer[][] P2 = algorithm.roulette(P1, new QuadraticFunction());
 

@@ -8,7 +8,7 @@ public class Exercise02L05 {
     private static final RastriginFunction f = new RastriginFunction(10, 10);
 
     public static void main(String[] args) {
-        GeneticAlgorithm algo = new GeneticAlgorithm(10, -5.21, 5.21, 3, 0.1, 10);
+        GeneticAlgorithm algo = new GeneticAlgorithm(10, -5.21, 5.21, 3,10);
 
         Integer[][] population = algo.generatePopulation();
         System.out.println("Wartości chromosomów: ");

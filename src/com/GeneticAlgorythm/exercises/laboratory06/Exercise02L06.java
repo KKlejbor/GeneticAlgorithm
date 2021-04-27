@@ -8,7 +8,7 @@ public class Exercise02L06 {
     public static final RastriginFunction f = new RastriginFunction(10,10);
 
     public static void main(String[] args) {
-        GeneticAlgorithm algorithm = new GeneticAlgorithm(10,-5.21,5.21,3,0.1,5);
+        GeneticAlgorithm algorithm = new GeneticAlgorithm(10,-5.21,5.21,3,5);
         Integer[][] P1 = algorithm.generatePopulation();
         Integer[][] P2 = algorithm.roulette(P1,new RastriginFunction(10,10));
 

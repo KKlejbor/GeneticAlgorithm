@@ -8,7 +8,7 @@ public class Exercise01L05 {
     private static final QuadraticFunction f = new QuadraticFunction();
 
     public static void main(String[] args) {
-        GeneticAlgorithm algo = new GeneticAlgorithm(2, -2, 2, 5, 0.1, 10);
+        GeneticAlgorithm algo = new GeneticAlgorithm(2, -2, 2, 5, 10);
 
         Integer[][] population = algo.generatePopulation();
         System.out.println("Wartości chromosomów: ");
