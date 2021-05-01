@@ -122,7 +122,17 @@ public class GeneticAlgorithm {
                     indexOfSecondParent = generateRandomIndex(populationSize);
                 } while (i == indexOfSecondParent);
 
-                offSpring = multipointCrossover(parents[i], parents[indexOfSecondParent], numberOfPoints);
+                switch (numberOfPoints){
+                    case 1:
+                        offSpring = pointCrossover(parents[i], parents[indexOfSecondParent]);
+                        break;
+                    case 2:
+                        offSpring = twoPointCrossover(parents[i], parents[indexOfSecondParent]);
+                        break;
+                    default:
+                        offSpring = multipointCrossover(parents[i], parents[indexOfSecondParent], numberOfPoints);
+                        break;
+                }
 
                 newPopulation[i] = offSpring[0];
                 newPopulation[indexOfSecondParent] = offSpring[1];
