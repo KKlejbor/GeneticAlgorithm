@@ -38,7 +38,7 @@ public class Exercise02AL07 {
 
                 if (j % 50 == 0) {
                     double average = algorithm.computeAverageValue(population, fMin);
-                    cvs.printRecord(j, String.format("%f", average), String.format("%f", algorithm.getTheBestSolution().getY()));
+                    cvs.printRecord(j, String.format("%f", -average), String.format("%f", -algorithm.getTheBestSolution().getY()));
                 }
 
                 Integer[][] temporaryPopulation = algorithm.roulette(population, fMin);

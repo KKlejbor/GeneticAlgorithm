@@ -36,10 +36,10 @@ public class Exercise02BL07 {
 
                 algorithm.setTheBestSolution(algorithm.decodeChromosome(population[k]),min);
 
-                if (j % 50 == 0) {
-                    double average = algorithm.computeAverageValue(population, fMin);
-                    cvs.printRecord(j, String.format("%f", average), String.format("%f", algorithm.getTheBestSolution().getY()));
-                }
+
+                double average = algorithm.computeAverageValue(population, fMin);
+                cvs.printRecord(j, String.format("%f", -average), String.format("%f", -algorithm.getTheBestSolution().getY()));
+
 
                 Integer[][] temporaryPopulation = algorithm.roulette(population, fMin);
                 temporaryPopulation = algorithm.applyCrossover(temporaryPopulation, 8);
