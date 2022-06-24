@@ -13,5 +13,4 @@ This project was build during Artificial Intelligence Methods and Tools class at
 
 ## External Libraries
 
-This project uses Apache Commons CSV library for writing measurements to a CSV file
-containing
+This project uses Apache Commons CSV library for writing measurements to a CSV file.
