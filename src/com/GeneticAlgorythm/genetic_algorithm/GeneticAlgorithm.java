@@ -1,4 +1,4 @@
-package com.GeneticAlgorythm.geneticAlgorythm;
+package com.GeneticAlgorythm.genetic_algorithm;
 
 import com.GeneticAlgorythm.util.Solution;
 

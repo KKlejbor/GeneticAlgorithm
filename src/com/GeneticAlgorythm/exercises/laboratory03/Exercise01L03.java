@@ -1,6 +1,6 @@
 package com.GeneticAlgorythm.exercises.laboratory03;
 
-import com.GeneticAlgorythm.geneticAlgorythm.GeneticAlgorithm;
+import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
 import com.GeneticAlgorythm.printing.Printing;
 import com.GeneticAlgorythm.util.QuadraticFunction;
 
