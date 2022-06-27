@@ -1,28 +1,28 @@
-package com.GeneticAlgorythm.exercises.laboratory03;
+package com.GeneticAlgorithm.exercises.laboratory03;
 
-import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
-import com.GeneticAlgorythm.printing.Printing;
-import com.GeneticAlgorythm.util.RastriginFunction;
+import com.GeneticAlgorithm.genetic_algorithm.GeneticAlgorithm;
+import com.GeneticAlgorithm.printing.Printing;
+import com.GeneticAlgorithm.util.QuadraticFunction;
 
-public class Exercise02L03 {
-    private static final RastriginFunction f = new RastriginFunction(10, 10);
+public class Exercise01L03 {
+    private static final QuadraticFunction f = new QuadraticFunction();
 
     public static void main(String[] args) {
-        GeneticAlgorithm algo = new GeneticAlgorithm(10, -5.21, 5.21, 3);
+        GeneticAlgorithm algo = new GeneticAlgorithm(2, -2, 2, 5);
 
         Integer[] parent1, parent2, offspring1, offspring2;
 
-        //deklaracja tablic przechowujących liczby rzeczywiste
+        //declare arrays for storing decoded chromosomes
         Double[] offspring1Dec, offspring2Dec;
 
-        //macierz przechowująca skrzyżowanych potomków
+        //matrix for offspring (result of crossover)
         Integer[][] offspringBin;
 
-        //generowanie ciągów binarnych dla rodziców
+        //generate parent chromosomes
         parent1 = algo.generateChromosome();
         parent2 = algo.generateChromosome();
 
-        //drukowanie ciągów rodziców
+        //print parent chromosome
         System.out.print("r1: ");
         Printing.printBinaryArray(parent1);
         System.out.print("r2: ");
@@ -33,13 +33,13 @@ public class Exercise02L03 {
         offspring1 = offspringBin[0];
         offspring2 = offspringBin[1];
 
-        //drukowanie ciągów potomków
+        //print offspring chromosome
         System.out.print("p1: ");
         Printing.printBinaryArray(offspring1);
         System.out.print("p2: ");
         Printing.printBinaryArray(offspring2);
 
-        //zamiana ciągów binarnych na liczby rzeczywiste
+        //decode values of offspring chromosomes
         offspring1Dec = algo.decodeChromosome(offspring1);
         offspring2Dec = algo.decodeChromosome(offspring2);
 
@@ -53,7 +53,7 @@ public class Exercise02L03 {
         System.out.println();
         System.out.println();
 
-        //drukowanie ciągów potomków
+        //print offspring
         System.out.print("p1: ");
         Printing.printBinaryArray(offspring1);
         System.out.print("p2: ");
@@ -64,13 +64,7 @@ public class Exercise02L03 {
         offspring1 = offspringBin[0];
         offspring2 = offspringBin[1];
 
-        //drukowanie ciągów potomków
-        System.out.print("p1: ");
-        Printing.printBinaryArray(offspring1);
-        System.out.print("p2: ");
-        Printing.printBinaryArray(offspring2);
-
-        //zamiana ciągów binarnych na liczby rzeczywiste
+        //decoding of offspring chromosomes
         offspring1Dec = algo.decodeChromosome(offspring1);
         offspring2Dec = algo.decodeChromosome(offspring2);
 

@@ -1,8 +1,8 @@
-package com.GeneticAlgorythm.exercises.laboratory05;
+package com.GeneticAlgorithm.exercises.laboratory05;
 
-import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
-import com.GeneticAlgorythm.printing.Printing;
-import com.GeneticAlgorythm.util.RastriginFunction;
+import com.GeneticAlgorithm.genetic_algorithm.GeneticAlgorithm;
+import com.GeneticAlgorithm.printing.Printing;
+import com.GeneticAlgorithm.util.RastriginFunction;
 
 public class Exercise02L05 {
     private static final RastriginFunction f = new RastriginFunction(10, 10);

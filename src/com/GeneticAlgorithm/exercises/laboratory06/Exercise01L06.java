@@ -1,16 +1,16 @@
-package com.GeneticAlgorythm.exercises.laboratory06;
+package com.GeneticAlgorithm.exercises.laboratory06;
 
-import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
-import com.GeneticAlgorythm.printing.Printing;
-import com.GeneticAlgorythm.util.RastriginFunction;
+import com.GeneticAlgorithm.genetic_algorithm.GeneticAlgorithm;
+import com.GeneticAlgorithm.printing.Printing;
+import com.GeneticAlgorithm.util.QuadraticFunction;
 
-public class Exercise02L06 {
-    public static final RastriginFunction f = new RastriginFunction(10,10);
+public class Exercise01L06 {
+    public static final QuadraticFunction f = new QuadraticFunction();
 
     public static void main(String[] args) {
-        GeneticAlgorithm algorithm = new GeneticAlgorithm(10,-5.21,5.21,3,5);
+        GeneticAlgorithm algorithm = new GeneticAlgorithm(2, -2, 2, 5,5);
         Integer[][] P1 = algorithm.generatePopulation();
-        Integer[][] P2 = algorithm.roulette(P1,new RastriginFunction(10,10));
+        Integer[][] P2 = algorithm.roulette(P1, new QuadraticFunction());
 
         System.out.println("Populacja P1:");
         Printing.printChromosomes(P1);

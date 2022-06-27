@@ -1,6 +1,6 @@
-package com.GeneticAlgorythm.genetic_algorithm;
+package com.GeneticAlgorithm.genetic_algorithm;
 
-import com.GeneticAlgorythm.util.Solution;
+import com.GeneticAlgorithm.util.Solution;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -1,15 +1,15 @@
-package com.GeneticAlgorythm.exercises.laboratory04;
+package com.GeneticAlgorithm.exercises.laboratory04;
 
-import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
-import com.GeneticAlgorythm.printing.Printing;
-import com.GeneticAlgorythm.util.QuadraticFunction;
+import com.GeneticAlgorithm.genetic_algorithm.GeneticAlgorithm;
+import com.GeneticAlgorithm.printing.Printing;
+import com.GeneticAlgorithm.util.RastriginFunction;
 import java.util.Arrays;
 
-public class Exercise01L04 {
-    private static final QuadraticFunction f = new QuadraticFunction();
+public class Exercise02L04 {
+    private static final RastriginFunction f = new RastriginFunction(10,10);
 
     public static void main(String[] args) {
-        GeneticAlgorithm algo = new GeneticAlgorithm(2, -2, 2, 5);
+        GeneticAlgorithm algo = new GeneticAlgorithm(10, -5.21, 5.21, 3);
 
         Integer[] chromosome = algo.generateChromosome();
         Double[] X = algo.decodeChromosome(chromosome);

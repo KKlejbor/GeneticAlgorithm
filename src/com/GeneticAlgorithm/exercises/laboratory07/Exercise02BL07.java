@@ -1,9 +1,9 @@
-package com.GeneticAlgorythm.exercises.laboratory07;
+package com.GeneticAlgorithm.exercises.laboratory07;
 
-import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
-import com.GeneticAlgorythm.printing.Printing;
-import com.GeneticAlgorythm.util.RastriginFunctionMin;
-import com.GeneticAlgorythm.util.Solution;
+import com.GeneticAlgorithm.genetic_algorithm.GeneticAlgorithm;
+import com.GeneticAlgorithm.printing.Printing;
+import com.GeneticAlgorithm.util.RastriginFunctionMin;
+import com.GeneticAlgorithm.util.Solution;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 

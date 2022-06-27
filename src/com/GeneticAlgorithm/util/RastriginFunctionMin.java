@@ -1,4 +1,4 @@
-package com.GeneticAlgorythm.util;
+package com.GeneticAlgorithm.util;
 
 public class RastriginFunctionMin extends RastriginFunction{
     public RastriginFunctionMin(int amplitude, int numberOfVariables) {

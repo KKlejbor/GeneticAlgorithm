@@ -1,4 +1,4 @@
-package com.GeneticAlgorythm.util;
+package com.GeneticAlgorithm.util;
 
 import java.util.function.Function;
 

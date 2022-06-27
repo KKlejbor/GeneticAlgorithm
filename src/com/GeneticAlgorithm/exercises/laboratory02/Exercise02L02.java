@@ -1,7 +1,7 @@
-package com.GeneticAlgorythm.exercises.laboratory02;
+package com.GeneticAlgorithm.exercises.laboratory02;
 
-import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
-import com.GeneticAlgorythm.util.RastriginFunction;
+import com.GeneticAlgorithm.genetic_algorithm.GeneticAlgorithm;
+import com.GeneticAlgorithm.util.RastriginFunction;
 
 public class Exercise02L02 {
     public static void main(String[] args) {

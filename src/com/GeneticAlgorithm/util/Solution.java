@@ -1,4 +1,4 @@
-package com.GeneticAlgorythm.util;
+package com.GeneticAlgorithm.util;
 
 public class Solution {
     private final Double[] x;

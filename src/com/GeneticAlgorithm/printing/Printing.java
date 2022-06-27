@@ -1,6 +1,6 @@
-package com.GeneticAlgorythm.printing;
+package com.GeneticAlgorithm.printing;
 
-import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
+import com.GeneticAlgorithm.genetic_algorithm.GeneticAlgorithm;
 import java.util.function.Function;
 
 public class Printing {

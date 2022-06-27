@@ -1,7 +1,7 @@
-package com.GeneticAlgorythm.exercises.laboratory02;
+package com.GeneticAlgorithm.exercises.laboratory02;
 
-import com.GeneticAlgorythm.genetic_algorithm.GeneticAlgorithm;
-import com.GeneticAlgorythm.util.QuadraticFunction;
+import com.GeneticAlgorithm.genetic_algorithm.GeneticAlgorithm;
+import com.GeneticAlgorithm.util.QuadraticFunction;
 
 public class Exercise01L02 {
     private static double f(double x1, double x2) {
